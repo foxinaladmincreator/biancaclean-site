@@ -7,364 +7,309 @@
 <meta name="description" content="Luxury oral care made with 100% food-grade ingredients. Whitening ampoules, pens, gels, toothpaste, and more. Designed in Milan by Bianca C.L.E.A.N.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Raleway:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Raleway:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 <style>
   :root {
     --teal: #4ECDC4;
     --teal-dark: #3db8b0;
-    --teal-glow: rgba(78, 205, 196, 0.3);
+    --teal-glow: rgba(78, 205, 196, 0.35);
+    --coral: #FF6B6B;
+    --gold: #F7D794;
     --navy: #031B4E;
     --dark: #0a0e1a;
-    --light: #f8f9fa;
-    --gray: #566593;
     --white: #ffffff;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
-    font-family: 'Raleway', 'Helvetica Neue', sans-serif;
+    font-family: 'Raleway', sans-serif;
     color: #fff;
     background: var(--dark);
     overflow-x: hidden;
   }
 
   .serif { font-family: 'PT Serif', serif; }
+  .display { font-family: 'Playfair Display', serif; }
+
+  /* ANIMATIONS */
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+  @keyframes pulse-glow { 0%,100% { box-shadow: 0 0 20px var(--teal-glow); } 50% { box-shadow: 0 0 50px var(--teal-glow), 0 0 80px rgba(78,205,196,0.15); } }
+  @keyframes slide-up { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes wiggle { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-3deg); } 75% { transform: rotate(3deg); } }
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 
   /* NAV */
   nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 100;
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     padding: 16px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(10, 14, 26, 0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(78, 205, 196, 0.1);
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10, 14, 26, 0.8);
+    backdrop-filter: blur(24px);
+    border-bottom: 1px solid rgba(78,205,196,0.08);
     transition: all 0.3s;
   }
   nav.scrolled { padding: 10px 40px; background: rgba(10, 14, 26, 0.95); }
   .nav-logo { height: 44px; }
   .nav-links { display: flex; gap: 32px; align-items: center; }
-  .nav-links a {
-    color: rgba(255,255,255,0.7);
-    text-decoration: none;
-    font-size: 0.9rem;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
+  .nav-links a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.85rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; transition: color 0.2s; }
   .nav-links a:hover { color: var(--teal); }
-  .nav-cta {
-    background: var(--teal) !important;
-    color: var(--dark) !important;
-    padding: 10px 24px;
-    border-radius: 8px;
-    font-weight: 700 !important;
-    transition: transform 0.2s, box-shadow 0.2s !important;
-  }
-  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 20px var(--teal-glow); }
+  .nav-cta { background: var(--teal) !important; color: var(--dark) !important; padding: 10px 24px; border-radius: 8px; font-weight: 700 !important; }
+  .nav-cta:hover { box-shadow: 0 4px 20px var(--teal-glow); }
   .hamburger { display: none; background: none; border: none; cursor: pointer; }
-  .hamburger span { display: block; width: 24px; height: 2px; background: #fff; margin: 5px 0; transition: 0.3s; }
+  .hamburger span { display: block; width: 24px; height: 2px; background: #fff; margin: 5px 0; }
 
   /* HERO */
   .hero {
     min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; align-items: center; justify-content: center;
     text-align: center;
-    padding: 120px 24px 80px;
+    padding: 100px 24px 60px;
     position: relative;
-    background: radial-gradient(ellipse at 50% 30%, rgba(78,205,196,0.08) 0%, transparent 60%),
-                linear-gradient(180deg, var(--dark) 0%, #0d1320 100%);
+    overflow: hidden;
   }
-  .hero-content { max-width: 800px; }
-  .hero-logo { height: 120px; margin-bottom: 32px; filter: drop-shadow(0 0 40px var(--teal-glow)); }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 20% 80%, rgba(78,205,196,0.12) 0%, transparent 40%),
+      radial-gradient(circle at 80% 20%, rgba(255,107,107,0.06) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(78,205,196,0.05) 0%, transparent 50%);
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 900px; }
+  .hero-logo { height: 100px; margin-bottom: 24px; animation: float 6s ease-in-out infinite; filter: drop-shadow(0 0 40px var(--teal-glow)); }
+  .hero-tagline {
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 20px;
+  }
   .hero h1 {
-    font-family: 'PT Serif', serif;
-    font-size: 3.2rem;
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 20px;
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem; font-weight: 700; line-height: 1.15; margin-bottom: 24px;
   }
-  .hero h1 span { color: var(--teal); }
-  .hero p {
-    font-size: 1.2rem;
-    line-height: 1.8;
-    opacity: 0.7;
-    max-width: 600px;
-    margin: 0 auto 40px;
+  .hero h1 .highlight { color: var(--teal); position: relative; }
+  .hero h1 .highlight::after {
+    content: ''; position: absolute; bottom: 4px; left: 0; right: 0; height: 8px;
+    background: var(--teal); opacity: 0.2; border-radius: 4px; z-index: -1;
   }
-  .hero-badges {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
+  .hero-sub {
+    font-size: 1.25rem; line-height: 1.9; opacity: 0.65; max-width: 640px; margin: 0 auto 36px;
   }
-  .badge {
-    padding: 10px 20px;
-    border: 1px solid rgba(78,205,196,0.25);
-    border-radius: 40px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    color: var(--teal);
-    background: rgba(78,205,196,0.06);
+  .hero-quip {
+    font-family: 'PT Serif', serif; font-style: italic; font-size: 1.1rem;
+    color: var(--gold); opacity: 0.8; margin-bottom: 40px;
   }
   .btn-primary {
-    display: inline-block;
-    padding: 16px 40px;
-    background: var(--teal);
-    color: var(--dark);
-    font-family: 'Raleway', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    text-decoration: none;
-    border-radius: 12px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    border: none;
-    cursor: pointer;
+    display: inline-block; padding: 18px 44px;
+    background: var(--teal); color: var(--dark);
+    font-family: 'Raleway', sans-serif; font-size: 1rem; font-weight: 800;
+    text-decoration: none; border-radius: 60px; letter-spacing: 1.5px; text-transform: uppercase;
+    border: none; cursor: pointer;
     transition: transform 0.2s, box-shadow 0.2s;
+    animation: pulse-glow 3s ease-in-out infinite;
   }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--teal-glow); }
+  .btn-primary:hover { transform: scale(1.05); box-shadow: 0 8px 40px var(--teal-glow); }
+
+  /* MARQUEE STRIP */
+  .marquee-strip {
+    padding: 16px 0; overflow: hidden;
+    background: var(--teal); color: var(--dark);
+    font-weight: 800; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase;
+    white-space: nowrap;
+  }
+  .marquee-inner {
+    display: inline-block; animation: marquee 30s linear infinite;
+  }
+  .marquee-inner span { margin: 0 40px; }
 
   /* SECTION SHARED */
-  section { padding: 100px 24px; }
+  section { padding: 120px 24px; position: relative; }
   .section-inner { max-width: 1200px; margin: 0 auto; }
   .section-tag {
-    display: inline-block;
-    padding: 6px 16px;
-    background: rgba(78,205,196,0.1);
-    border: 1px solid rgba(78,205,196,0.2);
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    color: var(--teal);
-    margin-bottom: 16px;
+    display: inline-block; padding: 6px 18px;
+    background: rgba(78,205,196,0.08); border: 1px solid rgba(78,205,196,0.15);
+    border-radius: 20px; font-size: 0.7rem; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 20px;
   }
   .section-title {
-    font-family: 'PT Serif', serif;
-    font-size: 2.4rem;
-    font-weight: 700;
-    margin-bottom: 16px;
-    line-height: 1.3;
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem; font-weight: 700; margin-bottom: 16px; line-height: 1.2;
   }
-  .section-subtitle {
-    font-size: 1.1rem;
-    opacity: 0.6;
-    max-width: 600px;
-    line-height: 1.7;
+  .section-subtitle { font-size: 1.1rem; opacity: 0.55; max-width: 580px; line-height: 1.8; margin-bottom: 56px; }
+  .text-gradient { background: linear-gradient(135deg, var(--teal) 0%, #8be8e0 60%, var(--gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  /* DARE TO EAT IT (food-grade section) */
+  .dare {
+    background: linear-gradient(180deg, var(--dark) 0%, #0c1425 50%, var(--dark) 100%);
+    text-align: center;
+  }
+  .dare-headline {
+    font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .dare-sub {
+    font-size: 1.15rem; opacity: 0.5; max-width: 550px; margin: 0 auto 60px; line-height: 1.8;
+  }
+  .ingredient-row {
+    display: flex; gap: 40px; justify-content: center; align-items: flex-start; flex-wrap: wrap;
     margin-bottom: 48px;
   }
-  .text-gradient {
-    background: linear-gradient(135deg, var(--teal) 0%, #8be8e0 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .ingredient-card {
+    width: 200px; text-align: center; padding: 36px 20px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(78,205,196,0.1);
+    border-radius: 20px;
+    transition: transform 0.4s, border-color 0.4s;
   }
+  .ingredient-card:hover { transform: translateY(-8px) rotate(-1deg); border-color: var(--teal); }
+  .ingredient-card svg { margin-bottom: 16px; }
+  .ingredient-card h4 { font-size: 1.1rem; font-weight: 700; color: var(--teal); margin-bottom: 6px; }
+  .ingredient-card p { font-size: 0.85rem; opacity: 0.5; line-height: 1.6; }
+  .dare-callout {
+    display: inline-block; padding: 20px 48px;
+    background: rgba(247,215,148,0.06); border: 1px solid rgba(247,215,148,0.2);
+    border-radius: 60px;
+  }
+  .dare-callout p { font-family: 'PT Serif', serif; font-size: 1.15rem; color: var(--gold); font-style: italic; }
 
-  /* PHILOSOPHY */
+  /* PHILOSOPHY CARDS */
   .philosophy { background: var(--dark); }
-  .phil-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
+  .phil-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
   .phil-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(78,205,196,0.1);
+    display: flex; gap: 20px; align-items: flex-start;
+    padding: 28px 32px;
+    background: rgba(255,255,255,0.02); border: 1px solid rgba(78,205,196,0.08);
     border-radius: 16px;
-    padding: 32px 28px;
-    text-align: center;
     transition: border-color 0.3s, transform 0.3s;
   }
-  .phil-card:hover { border-color: rgba(78,205,196,0.3); transform: translateY(-4px); }
-  .phil-icon { font-size: 2rem; margin-bottom: 16px; }
-  .phil-card h3 { font-size: 1rem; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-  .phil-card p { font-size: 0.95rem; line-height: 1.7; opacity: 0.6; }
-
-  /* INGREDIENTS */
-  .ingredients {
-    background: linear-gradient(180deg, #0d1320 0%, var(--dark) 100%);
-    text-align: center;
-  }
-  .ingredient-pills {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 40px;
-    flex-wrap: wrap;
-  }
-  .pill {
-    padding: 16px 32px;
-    background: rgba(78,205,196,0.08);
-    border: 1px solid rgba(78,205,196,0.2);
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--teal);
-  }
+  .phil-card:hover { border-color: rgba(78,205,196,0.25); transform: translateX(4px); }
+  .phil-card svg { flex-shrink: 0; margin-top: 2px; }
+  .phil-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--teal); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .phil-card p { font-size: 0.9rem; line-height: 1.7; opacity: 0.55; }
 
   /* PRODUCTS */
-  .products { background: var(--dark); }
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-  }
+  .products { background: linear-gradient(180deg, var(--dark) 0%, #0c1425 100%); }
+  .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
   .product-card {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(78,205,196,0.1);
-    border-radius: 16px;
-    overflow: hidden;
-    transition: border-color 0.3s, transform 0.3s;
+    background: rgba(255,255,255,0.025); border: 1px solid rgba(78,205,196,0.08);
+    border-radius: 20px; overflow: hidden;
+    transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
   }
-  .product-card:hover { border-color: rgba(78,205,196,0.3); transform: translateY(-4px); }
-  .product-img {
-    width: 100%;
-    height: 280px;
-    object-fit: contain;
-    background: rgba(255,255,255,0.95);
-    padding: 20px;
+  .product-card:hover { border-color: var(--teal); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(78,205,196,0.1); }
+  .product-img-wrap {
+    width: 100%; height: 300px; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #f8fffe 0%, #edf7f6 100%);
+    padding: 24px; position: relative; overflow: hidden;
   }
-  .product-info { padding: 24px; }
-  .product-info h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
-  .product-info p { font-size: 0.9rem; line-height: 1.7; opacity: 0.6; }
+  .product-img-wrap::after {
+    content: 'FOOD GRADE'; position: absolute; top: 14px; right: -28px;
+    background: var(--teal); color: var(--dark); font-size: 0.6rem; font-weight: 800;
+    letter-spacing: 2px; padding: 4px 36px; transform: rotate(45deg);
+  }
+  .product-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .product-info { padding: 24px 28px; }
+  .product-info h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+  .product-info p { font-size: 0.88rem; line-height: 1.7; opacity: 0.5; }
 
   /* HERITAGE */
-  .heritage {
-    background: linear-gradient(180deg, var(--dark) 0%, #0d1320 100%);
+  .heritage { background: var(--dark); }
+  .heritage-flow { display: flex; gap: 0; margin-top: 56px; position: relative; }
+  .heritage-flow::before {
+    content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--teal), transparent);
+    opacity: 0.2; z-index: 0;
   }
-  .heritage-timeline {
-    display: flex;
-    gap: 0;
-    margin-top: 48px;
+  .heritage-era {
+    flex: 1; padding: 40px 32px; text-align: center; position: relative; z-index: 1;
   }
-  .heritage-step {
-    flex: 1;
-    padding: 32px 28px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(78,205,196,0.1);
-    position: relative;
+  .heritage-era .era-dot {
+    width: 16px; height: 16px; border-radius: 50%; background: var(--teal);
+    margin: 0 auto 20px; box-shadow: 0 0 20px var(--teal-glow);
   }
-  .heritage-step:first-child { border-radius: 16px 0 0 16px; }
-  .heritage-step:last-child { border-radius: 0 16px 16px 0; }
-  .heritage-step h3 { font-size: 1.1rem; font-weight: 700; color: var(--teal); margin-bottom: 10px; }
-  .heritage-step p { font-size: 0.9rem; line-height: 1.7; opacity: 0.6; }
+  .heritage-era h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .heritage-era h3 span { color: var(--teal); }
+  .heritage-era p { font-size: 0.9rem; line-height: 1.8; opacity: 0.55; }
+  .heritage-era .era-year {
+    display: inline-block; margin-top: 16px; padding: 4px 16px;
+    background: rgba(78,205,196,0.08); border-radius: 20px;
+    font-size: 0.75rem; font-weight: 700; color: var(--teal); letter-spacing: 1px;
+  }
+
+  /* FPE STEPS */
+  .fpe { background: linear-gradient(180deg, #0c1425 0%, var(--dark) 100%); text-align: center; }
+  .fpe-steps { display: flex; gap: 60px; justify-content: center; margin-top: 56px; flex-wrap: wrap; }
+  .fpe-step { text-align: center; }
+  .fpe-step .step-num {
+    width: 72px; height: 72px; border-radius: 50%;
+    border: 2px solid var(--teal); display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--teal);
+  }
+  .fpe-step h3 { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700; color: var(--teal); margin-bottom: 8px; }
+  .fpe-step p { font-size: 0.9rem; opacity: 0.5; }
 
   /* SIGNUP */
   .signup {
-    background: radial-gradient(ellipse at 50% 50%, rgba(78,205,196,0.1) 0%, transparent 60%),
-                linear-gradient(180deg, #0d1320 0%, var(--dark) 100%);
-    text-align: center;
-    padding: 120px 24px;
+    background: radial-gradient(ellipse at 50% 50%, rgba(78,205,196,0.08) 0%, transparent 50%),
+                var(--dark);
+    text-align: center; padding: 140px 24px;
   }
   .signup-form {
-    display: flex;
-    gap: 12px;
-    max-width: 520px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: flex; gap: 12px; max-width: 540px; margin: 0 auto; flex-wrap: wrap; justify-content: center;
   }
   .signup-form input[type="text"],
   .signup-form input[type="email"] {
-    flex: 1;
-    min-width: 200px;
-    padding: 16px 20px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(78,205,196,0.25);
-    border-radius: 10px;
-    color: #fff;
-    font-family: 'Raleway', sans-serif;
-    font-size: 1rem;
-    outline: none;
-    transition: border-color 0.2s;
+    flex: 1; min-width: 200px; padding: 18px 22px;
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(78,205,196,0.2);
+    border-radius: 60px; color: #fff; font-family: 'Raleway', sans-serif; font-size: 0.95rem;
+    outline: none; transition: border-color 0.2s;
   }
   .signup-form input:focus { border-color: var(--teal); }
-  .signup-form input::placeholder { color: rgba(255,255,255,0.3); }
+  .signup-form input::placeholder { color: rgba(255,255,255,0.25); }
   .signup-form button {
-    padding: 16px 32px;
-    background: var(--teal);
-    color: var(--dark);
-    border: none;
-    border-radius: 10px;
-    font-family: 'Raleway', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
-    letter-spacing: 0.5px;
+    padding: 18px 36px; background: var(--teal); color: var(--dark); border: none;
+    border-radius: 60px; font-family: 'Raleway', sans-serif; font-size: 0.95rem; font-weight: 800;
+    cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
     transition: transform 0.2s, box-shadow 0.2s;
   }
-  .signup-form button:hover { transform: translateY(-1px); box-shadow: 0 6px 24px var(--teal-glow); }
-  .signup-success {
-    display: none;
-    margin-top: 20px;
-    padding: 16px 28px;
-    background: rgba(78,205,196,0.1);
-    border: 1px solid rgba(78,205,196,0.3);
-    border-radius: 10px;
-    color: var(--teal);
-    font-weight: 600;
-  }
-  .signup-error {
-    display: none;
-    margin-top: 20px;
-    color: #fc8181;
-    font-size: 0.9rem;
-  }
+  .signup-form button:hover { transform: scale(1.05); box-shadow: 0 6px 24px var(--teal-glow); }
+  .signup-success { display: none; margin-top: 24px; padding: 18px 32px; background: rgba(78,205,196,0.08); border: 1px solid rgba(78,205,196,0.2); border-radius: 60px; color: var(--teal); font-weight: 600; }
+  .signup-error { display: none; margin-top: 20px; color: var(--coral); font-size: 0.9rem; }
 
   /* FOOTER */
   footer {
-    padding: 48px 24px;
-    text-align: center;
-    border-top: 1px solid rgba(78,205,196,0.08);
-    background: var(--dark);
+    padding: 56px 24px; text-align: center;
+    border-top: 1px solid rgba(78,205,196,0.06); background: var(--dark);
   }
-  footer p { font-size: 0.85rem; opacity: 0.4; line-height: 1.8; }
-  footer .footer-logo { height: 40px; margin-bottom: 16px; opacity: 0.5; }
+  footer .footer-logo { height: 36px; margin-bottom: 16px; opacity: 0.4; }
+  footer p { font-size: 0.8rem; opacity: 0.3; line-height: 2; }
 
   /* MOBILE */
   @media (max-width: 768px) {
     nav { padding: 12px 20px; }
     .nav-links { display: none; }
     .nav-links.open {
-      display: flex;
-      flex-direction: column;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: rgba(10,14,26,0.98);
-      padding: 24px;
-      gap: 20px;
+      display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
+      background: rgba(10,14,26,0.98); padding: 24px; gap: 20px;
       border-bottom: 1px solid rgba(78,205,196,0.1);
     }
     .hamburger { display: block; }
-    .hero h1 { font-size: 2rem; }
-    .hero p { font-size: 1rem; }
-    .hero-badges { gap: 8px; }
-    .badge { font-size: 0.7rem; padding: 8px 14px; }
+    .hero h1 { font-size: 2.2rem; }
+    .hero-sub { font-size: 1rem; }
+    .dare-headline { font-size: 2.2rem; }
     .phil-grid { grid-template-columns: 1fr; }
     .product-grid { grid-template-columns: 1fr; }
-    .heritage-timeline { flex-direction: column; }
-    .heritage-step { border-radius: 0 !important; }
-    .heritage-step:first-child { border-radius: 16px 16px 0 0 !important; }
-    .heritage-step:last-child { border-radius: 0 0 16px 16px !important; }
-    .section-title { font-size: 1.8rem; }
+    .heritage-flow { flex-direction: column; }
+    .heritage-flow::before { display: none; }
+    .fpe-steps { flex-direction: column; align-items: center; gap: 40px; }
+    .section-title { font-size: 2rem; }
+    .ingredient-row { gap: 16px; }
+    .ingredient-card { width: 140px; padding: 24px 14px; }
     .signup-form { flex-direction: column; }
     .signup-form input, .signup-form button { width: 100%; }
   }
@@ -376,9 +321,9 @@
 <nav id="navbar">
   <img src="images/bcleanlogo.jpg" alt="bClean" class="nav-logo">
   <div class="nav-links" id="navLinks">
-    <a href="#philosophy">Philosophy</a>
+    <a href="#dare">Ingredients</a>
     <a href="#products">Products</a>
-    <a href="#heritage">Heritage</a>
+    <a href="#heritage">Our Story</a>
     <a href="#signup" class="nav-cta">Get Updates</a>
   </div>
   <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -390,144 +335,191 @@
 <section class="hero">
   <div class="hero-content">
     <img src="images/bcleanlogo.jpg" alt="bClean" class="hero-logo">
-    <h1>Luxury Oral Care,<br><span>Food-Grade Clean</span></h1>
-    <p>Every bClean product is made with simple, food-grade ingredients you can trust. No harsh chemicals. No parabens. No sulfates. Just science that works.</p>
-    <div class="hero-badges">
-      <div class="badge">100% Food Grade</div>
-      <div class="badge">All Natural</div>
-      <div class="badge">Clinically Proven</div>
-      <div class="badge">Designed in Milan</div>
+    <div class="hero-tagline">Bianca C.L.E.A.N. &mdash; Milan, Italy</div>
+    <h1>Your toothpaste has<br>ingredients you can't<br><span class="highlight">pronounce.</span><br>Ours doesn't.</h1>
+    <p class="hero-sub">bClean is luxury oral care made with food-grade ingredients so simple, you could eat them. (Please don't. But you could.)</p>
+    <p class="hero-quip">"No bad ingredients, just food."</p>
+    <a href="#signup" class="btn-primary">Join the Waitlist</a>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-inner">
+    <span>Food Grade</span><span>Corn</span><span>Cotton</span><span>Hydrogen Peroxide</span><span>No Parabens</span><span>No Sulfates</span><span>Clinically Proven</span><span>Designed in Milan</span><span>3x Whiter</span><span>97% Saw Results</span>
+    <span>Food Grade</span><span>Corn</span><span>Cotton</span><span>Hydrogen Peroxide</span><span>No Parabens</span><span>No Sulfates</span><span>Clinically Proven</span><span>Designed in Milan</span><span>3x Whiter</span><span>97% Saw Results</span>
+  </div>
+</div>
+
+<!-- DARE TO EAT IT -->
+<section class="dare" id="dare">
+  <div class="section-inner reveal">
+    <div class="section-tag">Ingredients</div>
+    <h2 class="dare-headline"><span class="text-gradient">Go ahead. Read the label.</span></h2>
+    <p class="dare-sub">Most toothpaste ingredient lists read like a chemistry final. Ours reads like a grocery receipt.</p>
+
+    <div class="ingredient-row">
+      <div class="ingredient-card">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="27" stroke="var(--teal)" stroke-width="1" opacity="0.2"/>
+          <path d="M28 12c-2 4-8 8-8 16s4 12 8 16c4-4 8-8 8-16s-6-12-8-16z" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
+          <path d="M28 18v20" stroke="var(--teal)" stroke-width="1" opacity="0.5"/>
+          <path d="M24 28h8" stroke="var(--teal)" stroke-width="1" opacity="0.5"/>
+        </svg>
+        <h4>Corn</h4>
+        <p>The base. As in, from a farm.</p>
+      </div>
+      <div class="ingredient-card">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="27" stroke="var(--teal)" stroke-width="1" opacity="0.2"/>
+          <circle cx="28" cy="24" r="8" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
+          <path d="M20 36c0-2 4-4 8-4s8 2 8 4" stroke="var(--teal)" stroke-width="1.5" fill="none"/>
+          <line x1="28" y1="36" x2="28" y2="44" stroke="var(--teal)" stroke-width="1.5"/>
+        </svg>
+        <h4>Cotton</h4>
+        <p>The applicator. Soft and simple.</p>
+      </div>
+      <div class="ingredient-card">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="27" stroke="var(--teal)" stroke-width="1" opacity="0.2"/>
+          <path d="M28 14l-1 12c0 3 2 6 1 8-1 3 0 6 0 8" stroke="var(--teal)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <circle cx="28" cy="44" r="3" fill="none" stroke="var(--teal)" stroke-width="1.5"/>
+          <path d="M24 20l4-2 4 2" stroke="var(--teal)" stroke-width="1" opacity="0.5"/>
+        </svg>
+        <h4>Hydrogen Peroxide</h4>
+        <p>The whitening. Dentist-approved.</p>
+      </div>
     </div>
-    <a href="#signup" class="btn-primary">Sign Up for Updates</a>
+
+    <div class="dare-callout">
+      <p>That's it. Three ingredients. Your grandma could read this label.</p>
+    </div>
   </div>
 </section>
 
 <!-- PHILOSOPHY -->
 <section class="philosophy" id="philosophy">
-  <div class="section-inner">
+  <div class="section-inner reveal">
     <div class="section-tag">Philosophy</div>
     <h2 class="section-title"><span class="text-gradient">Something to Smile About</span></h2>
-    <p class="section-subtitle">We believe what goes in your mouth matters. That's why every bClean product is formulated with ingredients you'd feel good eating.</p>
+    <p class="section-subtitle">We didn't just make cleaner toothpaste. We rethought what oral care should be.</p>
 
     <div class="phil-grid">
       <div class="phil-card">
-        <div class="phil-icon">🌿</div>
-        <h3>All Natural</h3>
-        <p>Every ingredient is sourced from nature. No synthetic fillers, no artificial flavors, no compromises.</p>
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round"><path d="M12 22c-4-3-8-6-8-11a4 4 0 018 0 4 4 0 018 0c0 5-4 8-8 11z"/><path d="M12 8v6M9 11h6"/></svg>
+        <div>
+          <h3>All Natural</h3>
+          <p>Every ingredient sourced from nature. No synthetic fillers, no artificial anything.</p>
+        </div>
       </div>
       <div class="phil-card">
-        <div class="phil-icon">🛡️</div>
-        <h3>Food Grade</h3>
-        <p>Our formulations meet food-grade standards. Simple ingredients: corn, cotton, and hydrogen peroxide.</p>
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round"><path d="M12 2L4 7v5c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V7L12 2z"/><path d="M9 12l2 2 4-4"/></svg>
+        <div>
+          <h3>Food-Grade Certified</h3>
+          <p>Formulations that meet food-grade standards. Because your mouth deserves real clean.</p>
+        </div>
       </div>
       <div class="phil-card">
-        <div class="phil-icon">🚫</div>
-        <h3>No Parabens</h3>
-        <p>Free from parabens, sulfates, and artificial additives. Clean oral care, no exceptions.</p>
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+        <div>
+          <h3>Zero Harsh Chemicals</h3>
+          <p>No parabens. No sulfates. No artificial additives. We banned the whole list.</p>
+        </div>
       </div>
       <div class="phil-card">
-        <div class="phil-icon">✅</div>
-        <h3>Clinically Proven</h3>
-        <p>3x whiter teeth in clinical trials. 97% of users saw visible results. Science you can see.</p>
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <div>
+          <h3>Clinically Proven</h3>
+          <p>3x whiter teeth in trials. 97% of users saw visible results. Not a marketing claim &mdash; a fact.</p>
+        </div>
       </div>
       <div class="phil-card">
-        <div class="phil-icon">🇮🇹</div>
-        <h3>Designed in Milan</h3>
-        <p>Premium European design across all packaging and aesthetics. Luxury that rivals the leading names.</p>
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round"><path d="M3 7l6-4 6 4 6-4v14l-6 4-6-4-6 4V7z"/><path d="M9 3v14M15 7v14"/></svg>
+        <div>
+          <h3>Designed in Milan</h3>
+          <p>Premium European packaging and aesthetics. Because oral care should look as good as it works.</p>
+        </div>
       </div>
       <div class="phil-card">
-        <div class="phil-icon">🔬</div>
-        <h3>Three Ingredients</h3>
-        <p>Our core whitening formula uses just three ingredients: corn, cotton, and hydrogen peroxide. That's it.</p>
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <div>
+          <h3>Complete Ecosystem</h3>
+          <p>Ampoules, pens, gels, toothpaste, toothbrush, kits. A full routine, not just one product.</p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- INGREDIENTS -->
-<section class="ingredients">
-  <div class="section-inner">
-    <div class="section-tag">Ingredients</div>
-    <h2 class="section-title">Not Just Clean — <span class="text-gradient">Food-Grade Clean</span></h2>
-    <p class="section-subtitle" style="margin-left:auto; margin-right:auto;">Our whitening ampoules are made from three simple ingredients you can trust.</p>
-    <div class="ingredient-pills">
-      <div class="pill">🌽 Corn</div>
-      <div class="pill">🧵 Cotton</div>
-      <div class="pill">💧 Hydrogen Peroxide</div>
+<!-- HOW IT WORKS -->
+<section class="fpe">
+  <div class="section-inner reveal">
+    <div class="section-tag">How It Works</div>
+    <h2 class="section-title"><span class="text-gradient">Three Steps. One Smile.</span></h2>
+    <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">Our Smile Spot ampoules make whitening as easy as snapping a glow stick. (But for your teeth.)</p>
+    <div class="fpe-steps">
+      <div class="fpe-step">
+        <div class="step-num">1</div>
+        <h3>Flip</h3>
+        <p>Open the ampoule</p>
+      </div>
+      <div class="fpe-step">
+        <div class="step-num">2</div>
+        <h3>Pop</h3>
+        <p>Activate the formula</p>
+      </div>
+      <div class="fpe-step">
+        <div class="step-num">3</div>
+        <h3>Erase</h3>
+        <p>Apply to teeth</p>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- PRODUCTS -->
 <section class="products" id="products">
-  <div class="section-inner">
+  <div class="section-inner reveal">
     <div class="section-tag">Products</div>
-    <h2 class="section-title"><span class="text-gradient">The Complete Oral Care Ecosystem</span></h2>
-    <p class="section-subtitle">From whitening ampoules to oscillating toothbrushes — everything you need for a complete routine, all food-grade clean.</p>
+    <h2 class="section-title"><span class="text-gradient">The Full Arsenal</span></h2>
+    <p class="section-subtitle">Everything your mouth needs, nothing it doesn't.</p>
 
     <div class="product-grid">
       <div class="product-card">
-        <img src="images/fresh-ups-14pack.jpg" alt="Smile Spot Ampoules" class="product-img">
-        <div class="product-info">
-          <h3>Smile Spot Fresh Ups</h3>
-          <p>The original ampoule technology with 100% food-grade ingredients. Each ampoule contains a precise dose of whitening solution. Flip. Pop. Erase.</p>
-        </div>
+        <div class="product-img-wrap"><img src="images/fresh-ups-14pack.jpg" alt="Smile Spot Fresh Ups" class="product-img"></div>
+        <div class="product-info"><h3>Smile Spot Fresh Ups</h3><p>The original ampoule technology. Each one is a precise dose of food-grade whitening. Flip. Pop. Erase.</p></div>
       </div>
       <div class="product-card">
-        <img src="images/smile-spot-tin.jpg" alt="Smile Spot 6ct Tin" class="product-img">
-        <div class="product-info">
-          <h3>Smile Spot 6-Count Tin</h3>
-          <p>Compact, travel-friendly format. Perfect for on-the-go whitening touch-ups. Premium metal tin packaging.</p>
-        </div>
+        <div class="product-img-wrap"><img src="images/smile-spot-tin.jpg" alt="6-Count Tin" class="product-img"></div>
+        <div class="product-info"><h3>Smile Spot 6-Count Tin</h3><p>Travel-friendly. Pocket-sized. The tin that goes everywhere your smile does.</p></div>
       </div>
       <div class="product-card">
-        <img src="images/whitening-pen-clean.png" alt="Whitening Pen" class="product-img">
-        <div class="product-info">
-          <h3>Whitening Pen</h3>
-          <p>A sleek, portable whitening pen with food-grade formula for targeted whitening anytime, anywhere.</p>
-        </div>
+        <div class="product-img-wrap"><img src="images/whitening-pen-clean.png" alt="Whitening Pen" class="product-img"></div>
+        <div class="product-info"><h3>Whitening Pen</h3><p>Point. Click. Whiten. A food-grade pen for surgical precision on stubborn stains.</p></div>
       </div>
       <div class="product-card">
-        <img src="images/render-whitening-gel.png" alt="Whitening Gel" class="product-img">
-        <div class="product-info">
-          <h3>Whitening Gel</h3>
-          <p>Concentrated whitening gel with food-grade ingredients for safe, effective at-home whitening.</p>
-        </div>
+        <div class="product-img-wrap"><img src="images/render-whitening-gel.png" alt="Whitening Gel" class="product-img"></div>
+        <div class="product-info"><h3>Whitening Gel</h3><p>Concentrated food-grade whitening gel. The heavy hitter for at-home treatments.</p></div>
       </div>
       <div class="product-card">
-        <img src="images/render-toothpaste-nobg.png" alt="Luxury Toothpaste" class="product-img">
-        <div class="product-info">
-          <h3>Luxury Toothpaste</h3>
-          <p>Vitamin-enhanced, food-grade toothpaste. The daily foundation of the bClean oral care routine.</p>
-        </div>
+        <div class="product-img-wrap"><img src="images/render-toothpaste-nobg.png" alt="Luxury Toothpaste" class="product-img"></div>
+        <div class="product-info"><h3>Luxury Toothpaste</h3><p>Vitamin-enhanced. Food-grade. The daily driver of your new oral care routine.</p></div>
       </div>
       <div class="product-card">
-        <img src="images/plecos1edited.jpg" alt="Plecos Oscillating Toothbrush" class="product-img">
-        <div class="product-info">
-          <h3>Plecos Oscillating Toothbrush</h3>
-          <p>Premium oscillating toothbrush with 4 brush heads, multiple modes, and USB-C rechargeable battery.</p>
-        </div>
+        <div class="product-img-wrap"><img src="images/plecos1edited.jpg" alt="Plecos Toothbrush" class="product-img"></div>
+        <div class="product-info"><h3>Plecos Oscillating Toothbrush</h3><p>4 heads. Multiple modes. USB-C. The last toothbrush you'll ever think about buying.</p></div>
       </div>
       <div class="product-card">
-        <img src="images/render-extreme-duo-kit.png" alt="Extreme Duo Kit" class="product-img">
-        <div class="product-info">
-          <h3>Extreme Duo Kit</h3>
-          <p>Our most powerful whitening essentials in one premium gift-ready tin. The ultimate whitening experience.</p>
-        </div>
+        <div class="product-img-wrap"><img src="images/render-extreme-duo-kit.png" alt="Extreme Duo Kit" class="product-img"></div>
+        <div class="product-info"><h3>Extreme Duo Kit</h3><p>The power couple. Our most potent whitening essentials in one premium tin.</p></div>
       </div>
       <div class="product-card">
-        <img src="images/render-sparkle-shine-kit.png" alt="Sparkle & Shine Kit" class="product-img">
-        <div class="product-info">
-          <h3>Sparkle &amp; Shine Kit</h3>
-          <p>A curated whitening kit with everything needed for a brighter smile. Perfect as a gift or self-treat.</p>
-        </div>
+        <div class="product-img-wrap"><img src="images/render-sparkle-shine-kit.png" alt="Sparkle & Shine Kit" class="product-img"></div>
+        <div class="product-info"><h3>Sparkle &amp; Shine Kit</h3><p>Gift-ready. Self-treat-ready. Everything for a brighter smile in one box.</p></div>
       </div>
       <div class="product-card">
-        <img src="images/render-smile-spot-14ct.png" alt="Smile Spot 14ct" class="product-img">
-        <div class="product-info">
-          <h3>Smile Spot 14-Count Box</h3>
-          <p>The full 14-count box of whitening ampoules. A complete 7-day whitening system with single-use applicators.</p>
-        </div>
+        <div class="product-img-wrap"><img src="images/render-smile-spot-14ct.png" alt="14-Count Box" class="product-img"></div>
+        <div class="product-info"><h3>Smile Spot 14-Count</h3><p>The full 7-day system. 14 single-use ampoules for the complete whitening experience.</p></div>
       </div>
     </div>
   </div>
@@ -535,45 +527,47 @@
 
 <!-- HERITAGE -->
 <section class="heritage" id="heritage">
-  <div class="section-inner">
-    <div class="section-tag">Heritage</div>
-    <h2 class="section-title"><span class="text-gradient">Three Generations of Smile Science</span></h2>
-    <p class="section-subtitle">From legacy beauty to food-grade oral care — the promise fulfilled.</p>
+  <div class="section-inner reveal">
+    <div class="section-tag">Our Story</div>
+    <h2 class="section-title"><span class="text-gradient">Three Generations in the Making</span></h2>
+    <p class="section-subtitle">bClean didn't come out of nowhere. It came out of decades of knowing what people put in their mouths should be better.</p>
 
-    <div class="heritage-timeline">
-      <div class="heritage-step">
-        <h3>Frends Beauty</h3>
-        <p>The foundation. A family beauty brand that built relationships across retail and established credibility in personal care.</p>
+    <div class="heritage-flow">
+      <div class="heritage-era">
+        <div class="era-dot"></div>
+        <h3><span>Frends Beauty</span></h3>
+        <p>A family beauty brand that built real relationships across retail. The foundation of everything that came next.</p>
+        <div class="era-year">The Foundation</div>
       </div>
-      <div class="heritage-step">
-        <h3>Go Smile</h3>
-        <p>Laura was the science brain behind the original ampoule technology. She wanted food-grade ingredients — but the formulations weren't there yet.</p>
+      <div class="heritage-era">
+        <div class="era-dot"></div>
+        <h3><span>Go Smile</span></h3>
+        <p>Laura invented the ampoule technology. She wanted food-grade ingredients back then &mdash; the science just wasn't ready.</p>
+        <div class="era-year">The Innovation</div>
       </div>
-      <div class="heritage-step">
-        <h3>bClean</h3>
-        <p>The vision realized. The same ampoule innovation, now with 100% food-grade ingredients. Designed in Milan. The promise fulfilled.</p>
+      <div class="heritage-era">
+        <div class="era-dot"></div>
+        <h3><span>bClean</span></h3>
+        <p>The same ampoule innovation, now with 100% food-grade ingredients. Designed in Milan. The promise finally fulfilled.</p>
+        <div class="era-year">The Vision Realized</div>
       </div>
-    </div>
-
-    <div style="text-align:center; margin-top:40px; padding:24px 40px; background:rgba(255,255,255,0.03); border:1px solid rgba(78,205,196,0.15); border-radius:12px;">
-      <p class="serif" style="font-size:1.15rem; font-style:italic; opacity:0.7; line-height:1.8;">Three generations of beauty expertise. One vision: <strong style="color:var(--teal);">food-grade oral care</strong> that finally delivers on the promise.</p>
     </div>
   </div>
 </section>
 
 <!-- SIGNUP -->
 <section class="signup" id="signup">
-  <div class="section-inner">
-    <div class="section-tag">Stay Connected</div>
-    <h2 class="section-title"><span class="text-gradient">Be First to Know</span></h2>
-    <p class="section-subtitle" style="margin-left:auto; margin-right:auto;">Sign up for exclusive updates on product launches, availability, and the future of food-grade oral care.</p>
+  <div class="section-inner reveal">
+    <div class="section-tag">Stay in the Loop</div>
+    <h2 class="section-title" style="margin-bottom:12px;"><span class="text-gradient">Be First to Know</span></h2>
+    <p class="section-subtitle" style="margin-left:auto;margin-right:auto;">Product drops. Launch dates. The inside track on food-grade oral care.</p>
 
     <form class="signup-form" id="signupForm">
       <input type="text" name="name" placeholder="Your Name" required>
       <input type="email" name="email" placeholder="Your Email" required>
-      <button type="submit">Sign Up</button>
+      <button type="submit">I'm In</button>
     </form>
-    <div class="signup-success" id="signupSuccess">You're in! We'll keep you updated on all things bClean.</div>
+    <div class="signup-success" id="signupSuccess">You're on the list. We'll keep you posted.</div>
     <div class="signup-error" id="signupError"></div>
   </div>
 </section>
@@ -583,29 +577,32 @@
   <img src="images/bcleanlogo.jpg" alt="bClean" class="footer-logo">
   <p>Bianca C.L.E.A.N. &bull; Designed in Milan, Italy</p>
   <p>Simple Food Grade Ingredients &bull; No Bad Ingredients, Just Food</p>
-  <p style="margin-top:16px;">&copy; 2026 Bianca C.L.E.A.N. All rights reserved.</p>
+  <p style="margin-top:12px;">2026 Bianca C.L.E.A.N. All rights reserved.</p>
 </footer>
 
 <script>
-  // Navbar scroll
+  // Nav scroll
   const nav = document.getElementById('navbar');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-  });
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
 
   // Hamburger
   document.getElementById('hamburger').addEventListener('click', () => {
     document.getElementById('navLinks').classList.toggle('open');
   });
-
-  // Close mobile nav on link click
   document.querySelectorAll('.nav-links a').forEach(a => {
-    a.addEventListener('click', () => {
-      document.getElementById('navLinks').classList.remove('open');
-    });
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
   });
 
-  // Signup form
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) { entry.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Signup
   document.getElementById('signupForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -615,28 +612,15 @@
     const errorEl = document.getElementById('signupError');
     successEl.style.display = 'none';
     errorEl.style.display = 'none';
-
     try {
-      const res = await fetch('/api/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email })
-      });
-      if (res.ok) {
-        successEl.style.display = 'block';
-        form.reset();
-      } else {
-        const data = await res.json().catch(() => ({}));
-        errorEl.textContent = data.error || 'Something went wrong. Please try again.';
-        errorEl.style.display = 'block';
-      }
-    } catch (err) {
-      // Fallback: store in localStorage if API unavailable
-      const signups = JSON.parse(localStorage.getItem('bclean-signups') || '[]');
-      signups.push({ name, email, date: new Date().toISOString() });
-      localStorage.setItem('bclean-signups', JSON.stringify(signups));
-      successEl.style.display = 'block';
-      form.reset();
+      const res = await fetch('/api/signup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email }) });
+      if (res.ok) { successEl.style.display = 'block'; form.reset(); }
+      else { const d = await res.json().catch(()=>({})); errorEl.textContent = d.error || 'Something went wrong.'; errorEl.style.display = 'block'; }
+    } catch {
+      const s = JSON.parse(localStorage.getItem('bclean-signups') || '[]');
+      s.push({ name, email, date: new Date().toISOString() });
+      localStorage.setItem('bclean-signups', JSON.stringify(s));
+      successEl.style.display = 'block'; form.reset();
     }
   });
 </script>
