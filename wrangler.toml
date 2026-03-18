@@ -1,0 +1,8 @@
+name = "biancaclean-site"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "./"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "bclean-signups"
+database_id = "9762cf31-3df9-4255-b5e1-d26adf78dc21"

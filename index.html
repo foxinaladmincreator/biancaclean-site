@@ -615,12 +615,10 @@
     try {
       const res = await fetch('/api/signup', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name, email }) });
       if (res.ok) { successEl.style.display = 'block'; form.reset(); }
+      else if (res.status === 409) { successEl.textContent = "You're already on the list!"; successEl.style.display = 'block'; form.reset(); }
       else { const d = await res.json().catch(()=>({})); errorEl.textContent = d.error || 'Something went wrong.'; errorEl.style.display = 'block'; }
     } catch {
-      const s = JSON.parse(localStorage.getItem('bclean-signups') || '[]');
-      s.push({ name, email, date: new Date().toISOString() });
-      localStorage.setItem('bclean-signups', JSON.stringify(s));
-      successEl.style.display = 'block'; form.reset();
+      errorEl.textContent = 'Something went wrong. Please try again.'; errorEl.style.display = 'block';
     }
   });
 </script>

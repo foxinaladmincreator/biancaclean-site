@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>bClean — Signups Admin</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Raleway', sans-serif; background: #0a0a0a; color: #e0e0e0; min-height: 100vh; }
+    .container { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+    h1 { font-family: 'PT Serif', serif; font-size: 2rem; margin-bottom: 8px; color: #4ECDC4; }
+    .subtitle { color: #888; margin-bottom: 32px; }
+    .login-box { background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 32px; max-width: 400px; margin: 100px auto; }
+    .login-box h2 { font-size: 1.2rem; margin-bottom: 16px; color: #4ECDC4; }
+    input[type="password"], input[type="text"] {
+      width: 100%; padding: 12px; background: #0a0a0a; border: 1px solid #333;
+      border-radius: 4px; color: #e0e0e0; font-size: 1rem; margin-bottom: 12px;
+    }
+    button {
+      background: #4ECDC4; color: #0a0a0a; border: none; padding: 12px 24px;
+      border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 0.9rem;
+    }
+    button:hover { background: #45b7b0; }
+    .error { color: #FF6B6B; margin-top: 8px; font-size: 0.9rem; }
+    table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    th { text-align: left; padding: 12px; border-bottom: 2px solid #333; color: #4ECDC4; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    td { padding: 12px; border-bottom: 1px solid #1a1a1a; font-size: 0.95rem; }
+    tr:hover td { background: #1a1a1a; }
+    .stat { display: inline-block; background: #1a1a1a; border: 1px solid #333; border-radius: 8px; padding: 16px 24px; margin-bottom: 24px; }
+    .stat-number { font-size: 2rem; font-weight: 700; color: #4ECDC4; }
+    .stat-label { font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 0.1em; }
+    .empty { text-align: center; color: #666; padding: 48px; }
+    .export-btn { background: transparent; border: 1px solid #4ECDC4; color: #4ECDC4; margin-left: 12px; }
+    .export-btn:hover { background: #4ECDC4; color: #0a0a0a; }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=Raleway:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div id="loginView" class="login-box">
+  <h2>bClean Admin</h2>
+  <form id="loginForm">
+    <input type="password" id="passwordInput" placeholder="Password" autofocus>
+    <button type="submit">View Signups</button>
+  </form>
+  <div id="loginError" class="error" style="display:none"></div>
+</div>
+
+<div id="adminView" class="container" style="display:none">
+  <h1>bClean Signups</h1>
+  <p class="subtitle">Email list from biancaclean.com</p>
+
+  <div class="stat">
+    <div class="stat-number" id="totalCount">—</div>
+    <div class="stat-label">Total Signups</div>
+  </div>
+  <button class="export-btn" onclick="exportCSV()">Export CSV</button>
+
+  <table>
+    <thead>
+      <tr><th>#</th><th>Name</th><th>Email</th><th>Date</th></tr>
+    </thead>
+    <tbody id="signupRows"></tbody>
+  </table>
+  <div id="emptyState" class="empty" style="display:none">No signups yet.</div>
+</div>
+
+<script>
+  let signupsData = [];
+  let password = '';
+
+  document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    password = document.getElementById('passwordInput').value;
+    const errorEl = document.getElementById('loginError');
+    errorEl.style.display = 'none';
+
+    try {
+      const res = await fetch(`/api/signups?password=${encodeURIComponent(password)}`);
+      if (res.status === 401) {
+        errorEl.textContent = 'Wrong password.';
+        errorEl.style.display = 'block';
+        return;
+      }
+      const data = await res.json();
+      signupsData = data.signups;
+      renderAdmin(data);
+    } catch {
+      errorEl.textContent = 'Failed to connect.';
+      errorEl.style.display = 'block';
+    }
+  });
+
+  function renderAdmin(data) {
+    document.getElementById('loginView').style.display = 'none';
+    document.getElementById('adminView').style.display = 'block';
+    document.getElementById('totalCount').textContent = data.total;
+
+    const tbody = document.getElementById('signupRows');
+    if (data.signups.length === 0) {
+      document.getElementById('emptyState').style.display = 'block';
+      return;
+    }
+
+    tbody.innerHTML = data.signups.map((s, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td>${esc(s.name)}</td>
+        <td>${esc(s.email)}</td>
+        <td>${new Date(s.created_at + 'Z').toLocaleDateString()}</td>
+      </tr>
+    `).join('');
+  }
+
+  function esc(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function exportCSV() {
+    const rows = [['Name', 'Email', 'Date']];
+    signupsData.forEach(s => rows.push([s.name, s.email, s.created_at]));
+    const csv = rows.map(r => r.map(c => `"${c}"`).join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'bclean-signups.csv';
+    a.click();
+  }
+</script>
+</body>
+</html>
