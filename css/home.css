@@ -1,0 +1,273 @@
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 100px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(78,205,196,0.12) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(247,215,148,0.06) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(78,205,196,0.05) 0%, transparent 50%);
+}
+.hero-bg-fruits {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.hero-bg-fruits svg {
+  position: absolute;
+  opacity: 0.06;
+  stroke: var(--teal);
+  fill: none;
+  stroke-width: 1.5;
+}
+.hero-content { position: relative; z-index: 1; max-width: 900px; }
+.hero-badge {
+  display: inline-block;
+  padding: 8px 24px;
+  background: rgba(247,215,148,0.1);
+  border: 1px solid rgba(247,215,148,0.3);
+  border-radius: 60px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 20px;
+}
+.hero-tagline {
+  font-size: 0.85rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--teal); margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 700; line-height: 1.15; margin-bottom: 24px;
+}
+.hero h1 .highlight { color: var(--teal); position: relative; }
+.hero h1 .highlight::after {
+  content: ''; position: absolute; bottom: 4px; left: 0; right: 0; height: 8px;
+  background: var(--teal); opacity: 0.2; border-radius: 4px; z-index: -1;
+}
+.hero-sub {
+  font-size: clamp(1rem, 1.5vw, 1.25rem); line-height: 1.9; opacity: 0.65;
+  max-width: 640px; margin: 0 auto 36px;
+}
+.hero-quip {
+  font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.1rem;
+  color: var(--yellow); opacity: 0.8; margin-bottom: 40px;
+}
+.hero-product-composite {
+  margin-top: 48px;
+  animation: float 6s ease-in-out infinite;
+}
+.hero-product-composite img {
+  max-height: 280px;
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
+}
+
+/* ===== MARQUEE ===== */
+.marquee-strip {
+  padding: 16px 0; overflow: hidden;
+  background: var(--teal); color: var(--dark);
+  font-weight: 800; font-size: 0.8rem; letter-spacing: 3px; text-transform: uppercase;
+  white-space: nowrap;
+}
+.marquee-inner {
+  display: inline-flex; align-items: center;
+  animation: marquee 30s linear infinite;
+}
+.marquee-inner span { margin: 0 20px; }
+.marquee-inner .marquee-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--dark); opacity: 0.3;
+  display: inline-block;
+}
+
+/* ===== DARE TO EAT IT ===== */
+.dare {
+  background: linear-gradient(180deg, var(--dark) 0%, #0c1425 50%, var(--dark) 100%);
+  text-align: center;
+  padding: 120px 24px;
+}
+.dare-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+  font-weight: 700; margin-bottom: 12px;
+}
+.dare-sub {
+  font-size: 1.15rem; opacity: 0.5; max-width: 550px; margin: 0 auto 60px; line-height: 1.8;
+}
+.ingredient-row {
+  display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; margin-bottom: 48px;
+}
+.ingredient-card {
+  width: 220px; text-align: center; padding: 40px 24px;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(78,205,196,0.1);
+  border-radius: 20px;
+  transition: transform 0.4s, border-color 0.4s;
+}
+.ingredient-card:hover { transform: translateY(-8px) rotate(-1deg); border-color: var(--teal); }
+.ingredient-card svg { margin-bottom: 16px; }
+.ingredient-card h4 { font-size: 1.1rem; font-weight: 700; color: var(--teal); margin-bottom: 6px; }
+.ingredient-card p { font-size: 0.85rem; opacity: 0.5; line-height: 1.6; }
+.dare-callout {
+  display: inline-block; padding: 20px 48px;
+  background: rgba(247,215,148,0.06); border: 1px solid rgba(247,215,148,0.2);
+  border-radius: 60px;
+}
+.dare-callout p { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--yellow); font-style: italic; }
+
+/* ===== GROWN NOT MANUFACTURED ===== */
+.grown {
+  padding: 140px 24px;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+  background: linear-gradient(180deg, var(--dark) 0%, #0d1628 50%, var(--dark) 100%);
+}
+.grown-bg {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+}
+.grown-bg svg {
+  position: absolute;
+  stroke: var(--teal);
+  fill: none;
+  stroke-width: 1.2;
+}
+.grown-content { position: relative; z-index: 1; }
+.grown h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  margin-bottom: 16px;
+}
+.grown p {
+  font-size: 1.1rem; opacity: 0.5; max-width: 500px; margin: 0 auto; line-height: 1.8;
+}
+
+/* ===== PHILOSOPHY ===== */
+.philosophy { background: var(--dark); padding: 120px 24px; }
+.phil-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+.phil-card {
+  display: flex; gap: 20px; align-items: flex-start;
+  padding: 28px 32px;
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(78,205,196,0.08);
+  border-radius: 16px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.phil-card:hover { border-color: rgba(78,205,196,0.25); transform: translateX(4px); }
+.phil-card svg { flex-shrink: 0; margin-top: 2px; }
+.phil-card h3 {
+  font-size: 0.95rem; font-weight: 700; color: var(--teal); margin-bottom: 6px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.phil-card p { font-size: 0.9rem; line-height: 1.7; opacity: 0.55; }
+
+/* ===== HOW IT WORKS (FPE) ===== */
+.fpe {
+  background: linear-gradient(180deg, #0c1425 0%, var(--dark) 100%);
+  text-align: center;
+  padding: 120px 24px;
+}
+.fpe-steps { display: flex; gap: 60px; justify-content: center; margin-top: 56px; flex-wrap: wrap; position: relative; }
+.fpe-step { text-align: center; position: relative; }
+.fpe-step .step-num {
+  width: 72px; height: 72px; border-radius: 50%;
+  border: 2px solid var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+  font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; color: var(--teal);
+}
+.fpe-step h3 {
+  font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 700;
+  color: var(--teal); margin-bottom: 8px;
+}
+.fpe-step p { font-size: 0.9rem; opacity: 0.5; }
+.fpe-connector {
+  position: absolute; top: 36px; left: 50%; width: calc(100% - 120px);
+  transform: translateX(-50%); z-index: 0;
+}
+.fpe-connector line {
+  stroke: var(--teal); stroke-width: 1; stroke-dasharray: 8 4; opacity: 0.2;
+}
+
+/* ===== PRODUCT GRID ===== */
+.products {
+  background: linear-gradient(180deg, var(--dark) 0%, #0c1425 100%);
+  padding: 120px 24px;
+}
+.product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.product-card {
+  background: rgba(255,255,255,0.025); border: 1px solid rgba(78,205,196,0.08);
+  border-radius: 20px; overflow: hidden;
+  transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
+  text-decoration: none; color: #fff; display: block;
+}
+.product-card:hover { border-color: var(--teal); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(78,205,196,0.1); }
+.product-img-wrap {
+  width: 100%; height: 300px; display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #f8fffe 0%, #edf7f6 100%);
+  padding: 24px; position: relative; overflow: hidden;
+}
+.product-img-wrap::after {
+  content: 'FOOD GRADE'; position: absolute; top: 14px; right: -28px;
+  background: var(--teal); color: var(--dark); font-size: 0.6rem; font-weight: 800;
+  letter-spacing: 2px; padding: 4px 36px; transform: rotate(45deg);
+}
+.product-img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.product-info { padding: 24px 28px; }
+.product-info h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+.product-info p { font-size: 0.88rem; line-height: 1.7; opacity: 0.5; }
+.product-info .coming-soon-tag {
+  display: inline-block; margin-top: 12px; padding: 4px 14px;
+  background: rgba(247,215,148,0.1); border: 1px solid rgba(247,215,148,0.2);
+  border-radius: 20px; font-size: 0.7rem; font-weight: 700; color: var(--yellow);
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* ===== HERITAGE ===== */
+.heritage { background: var(--dark); padding: 120px 24px; }
+.heritage-flow { display: flex; gap: 0; margin-top: 56px; position: relative; }
+.heritage-flow::before {
+  content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--teal), transparent);
+  opacity: 0.2; z-index: 0;
+}
+.heritage-era { flex: 1; padding: 40px 32px; text-align: center; position: relative; z-index: 1; }
+.heritage-era .era-dot {
+  width: 16px; height: 16px; border-radius: 50%; background: var(--teal);
+  margin: 0 auto 20px; box-shadow: 0 0 20px var(--teal-glow);
+}
+.heritage-era h3 {
+  font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 12px;
+}
+.heritage-era h3 span { color: var(--teal); }
+.heritage-era p { font-size: 0.9rem; line-height: 1.8; opacity: 0.55; }
+.heritage-era .era-year {
+  display: inline-block; margin-top: 16px; padding: 4px 16px;
+  background: rgba(78,205,196,0.08); border-radius: 20px;
+  font-size: 0.75rem; font-weight: 700; color: var(--teal); letter-spacing: 1px;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+  .hero h1 { font-size: clamp(2rem, 6vw, 2.4rem); }
+  .hero-sub { font-size: 1rem; }
+  .dare-headline { font-size: 2.2rem; }
+  .phil-grid { grid-template-columns: 1fr; }
+  .product-grid { grid-template-columns: 1fr; }
+  .heritage-flow { flex-direction: column; }
+  .heritage-flow::before { display: none; }
+  .fpe-steps { flex-direction: column; align-items: center; gap: 40px; }
+  .ingredient-row { gap: 16px; }
+  .ingredient-card { width: 160px; padding: 28px 16px; }
+  .hero-product-composite img { max-height: 180px; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+  .phil-grid { gap: 16px; }
+}

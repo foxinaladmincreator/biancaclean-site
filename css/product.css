@@ -1,0 +1,167 @@
+/* ===== PRODUCT HERO ===== */
+.product-hero {
+  min-height: 80vh;
+  display: flex; align-items: center;
+  padding: 120px 24px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.product-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(circle at 30% 70%, rgba(78,205,196,0.08) 0%, transparent 40%),
+    radial-gradient(circle at 70% 30%, rgba(247,215,148,0.04) 0%, transparent 40%);
+}
+.product-hero-inner {
+  max-width: 1200px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+  position: relative; z-index: 1;
+}
+.product-hero-img {
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #f8fffe 0%, #edf7f6 100%);
+  border-radius: 24px; padding: 48px; position: relative;
+  min-height: 400px;
+}
+.product-hero-img img {
+  max-height: 360px; max-width: 100%; object-fit: contain;
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.15));
+}
+.product-hero-img .food-grade-ribbon {
+  position: absolute; top: 20px; right: -16px;
+  background: var(--teal); color: var(--dark);
+  font-size: 0.65rem; font-weight: 800; letter-spacing: 2px;
+  padding: 6px 32px; transform: rotate(3deg);
+  text-transform: uppercase;
+}
+.product-hero-text h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  font-weight: 700; margin-bottom: 12px;
+}
+.product-hero-text .tagline {
+  font-size: 1.1rem; color: var(--teal); font-weight: 600;
+  margin-bottom: 24px; letter-spacing: 1px;
+}
+.product-hero-text .description {
+  font-size: 1rem; line-height: 1.8; opacity: 0.7; margin-bottom: 28px;
+}
+.product-hero-text .benefits {
+  list-style: none; padding: 0; margin-bottom: 32px;
+}
+.product-hero-text .benefits li {
+  padding: 8px 0; padding-left: 28px; position: relative;
+  font-size: 0.95rem; line-height: 1.6; opacity: 0.75;
+}
+.product-hero-text .benefits li::before {
+  content: '';
+  position: absolute; left: 0; top: 14px;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--teal);
+}
+.product-coming-soon {
+  display: inline-block; padding: 12px 32px;
+  background: rgba(247,215,148,0.1); border: 1px solid rgba(247,215,148,0.3);
+  border-radius: 60px;
+  font-size: 0.8rem; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--yellow);
+}
+
+/* ===== FEATURES GRID ===== */
+.features-section {
+  padding: 100px 24px;
+  background: linear-gradient(180deg, var(--dark) 0%, #0c1425 100%);
+}
+.features-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  max-width: 1200px; margin: 0 auto;
+}
+.feature-card {
+  text-align: center; padding: 32px 20px;
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(78,205,196,0.08);
+  border-radius: 16px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.feature-card:hover { border-color: var(--teal); transform: translateY(-4px); }
+.feature-card svg { margin-bottom: 16px; }
+.feature-card h4 {
+  font-size: 0.85rem; font-weight: 700; color: var(--teal);
+  text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;
+}
+.feature-card p { font-size: 0.8rem; opacity: 0.5; line-height: 1.5; }
+
+/* ===== HOW TO USE ===== */
+.how-to-use-section {
+  padding: 100px 24px;
+  background: var(--dark);
+}
+.how-to-use-inner {
+  max-width: 900px; margin: 0 auto; text-align: center;
+}
+.steps-row {
+  display: flex; gap: 40px; justify-content: center; margin-top: 48px; flex-wrap: wrap;
+}
+.use-step {
+  flex: 1; min-width: 200px; max-width: 260px; text-align: center;
+  padding: 32px 20px;
+  background: rgba(255,255,255,0.02); border: 1px solid rgba(78,205,196,0.08);
+  border-radius: 16px;
+}
+.use-step .step-num {
+  width: 48px; height: 48px; border-radius: 50%;
+  border: 2px solid var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+  font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--teal);
+}
+.use-step h4 {
+  font-size: 0.95rem; font-weight: 700; color: var(--teal); margin-bottom: 8px;
+}
+.use-step p { font-size: 0.85rem; opacity: 0.55; line-height: 1.6; }
+
+/* ===== CLINICAL RESULTS ===== */
+.clinical-section {
+  padding: 100px 24px;
+  background: linear-gradient(180deg, #0c1425 0%, var(--dark) 100%);
+  text-align: center;
+}
+.clinical-stats {
+  display: flex; gap: 60px; justify-content: center; flex-wrap: wrap; margin-top: 48px;
+}
+.clinical-stat {
+  text-align: center;
+}
+.clinical-stat .number {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 5vw, 4rem);
+  font-weight: 700; color: var(--teal); line-height: 1;
+}
+.clinical-stat .label {
+  font-size: 0.9rem; opacity: 0.55; margin-top: 8px; line-height: 1.5;
+}
+
+/* ===== RELATED PRODUCTS ===== */
+.related-section {
+  padding: 100px 24px;
+  background: var(--dark);
+}
+.related-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  max-width: 1200px; margin: 0 auto;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .product-hero-inner { grid-template-columns: 1fr; gap: 32px; }
+  .product-hero-img { min-height: 280px; padding: 32px; }
+  .features-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .steps-row { flex-direction: column; align-items: center; }
+  .clinical-stats { gap: 32px; }
+  .related-grid { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .related-grid { grid-template-columns: repeat(2, 1fr); }
+}
