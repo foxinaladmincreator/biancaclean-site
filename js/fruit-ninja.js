@@ -14,13 +14,13 @@
   ];
 
   const CONFIG = {
-    interval: 1200,        // ms between fruit launches
-    maxActive: 6,          // max simultaneous fruits (desktop)
-    maxActiveMobile: 2,
-    sizeMin: 140,
-    sizeMax: 200,
-    sizeMobile: 100,
-    opacity: 0.85,
+    interval: 600,         // ms between fruit launches
+    maxActive: 12,         // max simultaneous fruits (desktop)
+    maxActiveMobile: 4,
+    sizeMin: 180,
+    sizeMax: 260,
+    sizeMobile: 120,
+    opacity: 0.95,
     launchDuration: 2.0,   // seconds — fruit rising
     sliceDuration: 0.2,    // seconds — slash line draw
     tumbleDuration: 1.4,   // seconds — halves falling away
@@ -115,7 +115,7 @@
     el.style.cssText = `position:absolute;width:${size}px;height:${size}px;object-fit:contain;bottom:-${size}px;left:${xPx}px;opacity:0;pointer-events:none;will-change:transform,opacity;`;
     canvas.appendChild(el);
 
-    const apexY = heroRect.height * (0.25 + Math.random() * 0.3); // 25-55% from bottom
+    const apexY = heroRect.height * (0.55 + Math.random() * 0.35); // 55-90% from bottom (higher up on page)
     const rotAngle = (Math.random() - 0.5) * 60;
 
     // Timeline: launch → slice → tumble
