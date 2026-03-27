@@ -15,15 +15,8 @@
     radial-gradient(circle at 80% 20%, rgba(247,215,148,0.06) 0%, transparent 40%),
     radial-gradient(circle at 50% 50%, rgba(78,205,196,0.05) 0%, transparent 50%);
 }
-.hero-bg-fruits {
+.fruit-ninja-canvas {
   position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
-}
-.hero-bg-fruits svg {
-  position: absolute;
-  opacity: 0.06;
-  stroke: var(--teal);
-  fill: none;
-  stroke-width: 1.5;
 }
 .hero-content { position: relative; z-index: 1; max-width: 900px; }
 .hero-badge {

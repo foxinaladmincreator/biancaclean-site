@@ -113,7 +113,7 @@ nav.scrolled {
   padding: 10px 40px;
   background: rgba(10, 14, 26, 0.95);
 }
-.nav-logo { height: 44px; }
+.nav-logo { height: 48px; width: auto; object-fit: contain; border-radius: 6px; }
 .nav-links { display: flex; gap: 32px; align-items: center; }
 .nav-links a {
   color: rgba(255,255,255,0.6);
@@ -195,7 +195,7 @@ footer {
   background: var(--dark);
 }
 .footer-inner { max-width: 1200px; margin: 0 auto; }
-.footer-logo { height: 36px; margin-bottom: 16px; opacity: 0.4; }
+.footer-logo { height: 36px; margin-bottom: 16px; opacity: 0.4; object-fit: contain; }
 .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 24px; margin-bottom: 20px; }
 .footer-links a { font-size: 0.8rem; opacity: 0.4; transition: opacity 0.2s; }
 .footer-links a:hover { opacity: 0.8; color: var(--teal); }

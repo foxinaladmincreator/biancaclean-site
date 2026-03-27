@@ -6,20 +6,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // Hero parallax fruit SVGs
-  gsap.utils.toArray('.hero-bg-fruits svg').forEach((svg, i) => {
-    gsap.to(svg, {
-      y: -80 - (i * 30),
-      rotation: 10 + (i * 5),
-      scrollTrigger: {
-        trigger: '.hero',
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 1,
-      }
-    });
-  });
-
   // Grown section parallax
   gsap.utils.toArray('.grown-bg svg').forEach((svg, i) => {
     gsap.to(svg, {

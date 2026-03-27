@@ -115,7 +115,7 @@
   margin: 0 auto 16px;
   font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--teal);
 }
-.use-step h4 {
+.use-step h3, .use-step h4 {
   font-size: 0.95rem; font-weight: 700; color: var(--teal); margin-bottom: 8px;
 }
 .use-step p { font-size: 0.85rem; opacity: 0.55; line-height: 1.6; }

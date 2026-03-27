@@ -29,6 +29,20 @@
   to { opacity: 1; transform: scale(1); }
 }
 
+/* ===== FRUIT NINJA ===== */
+@keyframes fruit-tumble-left {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0.6; }
+  100% { transform: translate(-80px, 200px) rotate(-120deg); opacity: 0; }
+}
+@keyframes fruit-tumble-right {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 0.6; }
+  100% { transform: translate(80px, 200px) rotate(120deg); opacity: 0; }
+}
+
+.fruit-slice-line line {
+  filter: drop-shadow(0 0 8px var(--teal-glow));
+}
+
 /* ===== SCROLL REVEAL ===== */
 .reveal {
   opacity: 0;
