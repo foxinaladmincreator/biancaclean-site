@@ -14,13 +14,13 @@
   ];
 
   const CONFIG = {
-    interval: 2000,        // ms between fruit launches
-    maxActive: 3,          // max simultaneous fruits (desktop)
-    maxActiveMobile: 1,
-    sizeMin: 80,
-    sizeMax: 120,
-    sizeMobile: 60,
-    opacity: 0.6,
+    interval: 1200,        // ms between fruit launches
+    maxActive: 6,          // max simultaneous fruits (desktop)
+    maxActiveMobile: 2,
+    sizeMin: 140,
+    sizeMax: 200,
+    sizeMobile: 100,
+    opacity: 0.85,
     launchDuration: 1.2,   // seconds — fruit rising
     sliceDuration: 0.15,   // seconds — slash line draw
     tumbleDuration: 0.8,   // seconds — halves falling away
