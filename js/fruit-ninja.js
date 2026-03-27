@@ -1,29 +1,28 @@
-// ===== Fruit Ninja Animation Engine =====
-// GSAP-powered fruit slice animation for the hero section
+// ===== Floating Fruit Animation Engine =====
+// GSAP-powered floating fruit animation for the hero section
 
 (function () {
   'use strict';
 
   const FRUITS = [
-    { name: 'pineapple', whole: 'images/fruits/pineapple.webp', halves: 'images/fruits/pineapple-halves.webp' },
-    { name: 'papaya', whole: 'images/fruits/papaya.webp', halves: 'images/fruits/papaya-halves.webp' },
-    { name: 'apple', whole: 'images/fruits/apple.webp', halves: 'images/fruits/apple-halves.webp' },
-    { name: 'strawberry', whole: 'images/fruits/strawberry.webp', halves: 'images/fruits/strawberry-halves.webp' },
-    { name: 'lemon', whole: 'images/fruits/lemon.webp', halves: 'images/fruits/lemon-halves.webp' },
-    { name: 'mint', whole: 'images/fruits/mint.webp', halves: 'images/fruits/mint-halves.webp' },
+    'images/fruits/pineapple.webp',
+    'images/fruits/papaya.webp',
+    'images/fruits/apple.webp',
+    'images/fruits/strawberry.webp',
+    'images/fruits/lemon.webp',
+    'images/fruits/mint.webp',
   ];
 
   const CONFIG = {
-    interval: 600,         // ms between fruit launches
-    maxActive: 12,         // max simultaneous fruits (desktop)
-    maxActiveMobile: 4,
+    interval: 400,
+    maxActive: 18,
+    maxActiveMobile: 6,
     sizeMin: 180,
-    sizeMax: 260,
+    sizeMax: 280,
     sizeMobile: 120,
     opacity: 0.95,
-    launchDuration: 2.0,   // seconds — fruit rising
-    sliceDuration: 0.2,    // seconds — slash line draw
-    tumbleDuration: 1.4,   // seconds — halves falling away
+    riseDuration: 3.5,
+    fadeDuration: 1.0,
   };
 
   let canvas, heroRect, isVisible = true, activeCount = 0, loopTimer;
@@ -36,18 +35,13 @@
     canvas = document.querySelector('.fruit-ninja-canvas');
     if (!canvas) return;
 
-    // Preload images
-    FRUITS.forEach(f => {
-      new Image().src = f.whole;
-      new Image().src = f.halves;
-    });
+    FRUITS.forEach(src => { new Image().src = src; });
 
     if (prefersReduced) {
       showStaticFruits();
       return;
     }
 
-    // IntersectionObserver — only animate when hero is visible
     const observer = new IntersectionObserver(entries => {
       isVisible = entries[0].isIntersecting;
       if (isVisible && !loopTimer) startLoop();
@@ -69,17 +63,16 @@
   }
 
   function showStaticFruits() {
-    // For prefers-reduced-motion: show a few static, faded fruits
     const positions = [
-      { left: '8%', top: '20%' },
-      { right: '10%', top: '30%' },
-      { left: '12%', bottom: '25%' },
+      { left: '5%', top: '15%' }, { right: '8%', top: '20%' },
+      { left: '10%', bottom: '30%' }, { right: '12%', bottom: '20%' },
+      { left: '3%', top: '50%' }, { right: '5%', top: '45%' },
     ];
     positions.forEach((pos, i) => {
       const img = document.createElement('img');
-      img.src = FRUITS[i % FRUITS.length].whole;
+      img.src = FRUITS[i % FRUITS.length];
       img.alt = '';
-      img.style.cssText = `position:absolute;width:70px;height:70px;object-fit:contain;opacity:0.3;pointer-events:none;`;
+      img.style.cssText = `position:absolute;width:100px;height:100px;object-fit:contain;opacity:0.4;pointer-events:none;`;
       Object.assign(img.style, pos);
       canvas.appendChild(img);
     });
@@ -91,155 +84,62 @@
     if (activeCount >= max) return;
 
     activeCount++;
-    const fruit = FRUITS[Math.floor(Math.random() * FRUITS.length)];
+    const src = FRUITS[Math.floor(Math.random() * FRUITS.length)];
     const mobile = isMobile();
     const size = mobile ? CONFIG.sizeMobile : CONFIG.sizeMin + Math.random() * (CONFIG.sizeMax - CONFIG.sizeMin);
 
     heroRect = canvas.getBoundingClientRect();
 
-    // Random x position in outer 30% on each side (avoid center text)
-    const side = Math.random() < 0.5 ? 'left' : 'right';
+    // Random x — use full width but weight toward edges
     let xPercent;
-    if (side === 'left') {
-      xPercent = 2 + Math.random() * 28; // 2-30%
+    if (Math.random() < 0.7) {
+      // 70% chance: outer edges
+      const side = Math.random() < 0.5 ? 'left' : 'right';
+      xPercent = side === 'left'
+        ? 2 + Math.random() * 28
+        : 70 + Math.random() * 28;
     } else {
-      xPercent = 70 + Math.random() * 28; // 70-98%
+      // 30% chance: anywhere
+      xPercent = 5 + Math.random() * 90;
     }
     const xPx = (xPercent / 100) * heroRect.width - size / 2;
 
-    // Create fruit element
     const el = document.createElement('img');
-    el.src = fruit.whole;
+    el.src = src;
     el.alt = '';
-    el.className = 'fruit-ninja-item';
     el.style.cssText = `position:absolute;width:${size}px;height:${size}px;object-fit:contain;bottom:-${size}px;left:${xPx}px;opacity:0;pointer-events:none;will-change:transform,opacity;`;
     canvas.appendChild(el);
 
-    const apexY = heroRect.height * (0.55 + Math.random() * 0.35); // 55-90% from bottom (higher up on page)
-    const rotAngle = (Math.random() - 0.5) * 60;
+    const riseHeight = heroRect.height * (0.6 + Math.random() * 0.4);
+    const drift = (Math.random() - 0.5) * 80;
+    const rotAngle = (Math.random() - 0.5) * 40;
 
-    // Timeline: launch → slice → tumble
     const tl = gsap.timeline({
       onComplete: () => {
-        cleanup(el);
+        el.remove();
+        activeCount = Math.max(0, activeCount - 1);
       }
     });
 
-    // Phase 1: Launch upward
+    // Rise up with gentle drift and rotation
     tl.to(el, {
-      y: -apexY,
+      y: -riseHeight,
+      x: drift,
       rotation: rotAngle,
       opacity: CONFIG.opacity,
-      duration: CONFIG.launchDuration,
-      ease: 'power2.out',
+      duration: CONFIG.riseDuration,
+      ease: 'power1.out',
     });
 
-    // Phase 2: Slash + swap to halves
-    tl.call(() => {
-      drawSlash(el, size, xPx, apexY);
-    });
-
+    // Fade out at the top
     tl.to(el, {
       opacity: 0,
-      scale: 0.8,
-      duration: 0.1,
-    });
-
-    // Phase 3: Spawn halves that tumble apart
-    tl.call(() => {
-      spawnHalves(fruit, size, xPx, apexY, el);
-    });
-
-    // Add padding for tumble animation duration
-    tl.to({}, { duration: CONFIG.tumbleDuration + 0.2 });
-  }
-
-  function drawSlash(fruitEl, size, xPx, apexY) {
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('class', 'fruit-slice-line');
-    const fruitCenterX = xPx + size / 2;
-    const fruitCenterY = canvas.offsetHeight - apexY;
-
-    const slashLen = size * 1.5;
-    const angle = -30 + Math.random() * 60; // degrees
-    const rad = angle * Math.PI / 180;
-    const x1 = fruitCenterX - Math.cos(rad) * slashLen / 2;
-    const y1 = fruitCenterY - Math.sin(rad) * slashLen / 2;
-    const x2 = fruitCenterX + Math.cos(rad) * slashLen / 2;
-    const y2 = fruitCenterY + Math.sin(rad) * slashLen / 2;
-
-    svg.style.cssText = `position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;`;
-    svg.innerHTML = `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="var(--teal)" stroke-width="3" stroke-linecap="round" filter="url(#slashGlow)" stroke-dasharray="500" stroke-dashoffset="500"/>
-    <defs><filter id="slashGlow"><feGaussianBlur stdDeviation="4" result="glow"/><feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>`;
-
-    canvas.appendChild(svg);
-    const line = svg.querySelector('line');
-
-    gsap.to(line, {
-      strokeDashoffset: 0,
-      duration: CONFIG.sliceDuration,
+      y: `-=${heroRect.height * 0.1}`,
+      duration: CONFIG.fadeDuration,
       ease: 'power2.in',
-      onComplete: () => {
-        gsap.to(svg, {
-          opacity: 0,
-          duration: 0.3,
-          onComplete: () => svg.remove(),
-        });
-      }
     });
   }
 
-  function spawnHalves(fruit, size, xPx, apexY, originalEl) {
-    const halfSize = size * 0.85;
-    const baseBottom = canvas.offsetHeight - apexY - size / 2;
-
-    // We use the halves image with clip-path to get left/right halves
-    for (let i = 0; i < 2; i++) {
-      const half = document.createElement('img');
-      half.src = fruit.halves;
-      half.alt = '';
-      half.style.cssText = `position:absolute;width:${halfSize}px;height:${halfSize}px;object-fit:contain;pointer-events:none;will-change:transform,opacity;z-index:1;`;
-
-      // Position at the fruit's current location
-      const offsetX = i === 0 ? -halfSize * 0.3 : halfSize * 0.3;
-      half.style.left = (xPx + size / 2 - halfSize / 2 + offsetX) + 'px';
-      half.style.bottom = baseBottom + 'px';
-      half.style.opacity = CONFIG.opacity;
-
-      // Clip left or right half
-      half.style.clipPath = i === 0
-        ? 'inset(0 50% 0 0)'
-        : 'inset(0 0 0 50%)';
-
-      canvas.appendChild(half);
-
-      const tumbleX = i === 0 ? -(40 + Math.random() * 60) : (40 + Math.random() * 60);
-      const tumbleRot = i === 0 ? -(90 + Math.random() * 90) : (90 + Math.random() * 90);
-
-      gsap.to(half, {
-        x: tumbleX,
-        y: 200 + Math.random() * 100,
-        rotation: tumbleRot,
-        opacity: 0,
-        duration: CONFIG.tumbleDuration,
-        ease: 'power1.in',
-        onComplete: () => {
-          half.remove();
-          activeCount = Math.max(0, activeCount - 1);
-        }
-      });
-    }
-
-    // Only decrement once for the pair (handled in second half's onComplete)
-    // Adjust: decrement only once
-    activeCount++; // offset since both halves decrement
-  }
-
-  function cleanup(el) {
-    if (el && el.parentNode) el.remove();
-  }
-
-  // Wait for GSAP to load
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => setTimeout(init, 100));
   } else {
