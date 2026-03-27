@@ -21,9 +21,9 @@
     sizeMax: 200,
     sizeMobile: 100,
     opacity: 0.85,
-    launchDuration: 1.2,   // seconds — fruit rising
-    sliceDuration: 0.15,   // seconds — slash line draw
-    tumbleDuration: 0.8,   // seconds — halves falling away
+    launchDuration: 2.0,   // seconds — fruit rising
+    sliceDuration: 0.2,    // seconds — slash line draw
+    tumbleDuration: 1.4,   // seconds — halves falling away
   };
 
   let canvas, heroRect, isVisible = true, activeCount = 0, loopTimer;
